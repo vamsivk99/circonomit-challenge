@@ -1,0 +1,120 @@
+{
+  "extraction_timestamp": "2025-07-24T21:01:29.950526",
+  "method": "hybrid_llm_pipeline",
+  "total_rules": 3,
+  "rules": [
+    {
+      "condition_block": "Energy",
+      "condition_attribute": "price_future",
+      "comparator": ">",
+      "threshold": 200.0,
+      "threshold_unit": "\u20ac/MWh",
+      "action_block": "Production",
+      "action_attribute": "schedule_delay",
+      "action_value": "7 days",
+      "action_type": "delay",
+      "confidence": 0.9,
+      "temporal_delay": "1 week",
+      "probability": null,
+      "original_text": "If energy costs rise above \u20ac200/MWh, we will postpone production by one week.",
+      "extracted_at": "2025-07-24 21:01:29.886245"
+    },
+    {
+      "condition_block": "Production",
+      "condition_attribute": "unit_cost",
+      "comparator": ">",
+      "threshold": 250.0,
+      "threshold_unit": "\u20ac/unit",
+      "action_block": "Demand",
+      "action_attribute": "demand_shift",
+      "action_value": "-0.6",
+      "action_type": "decrease",
+      "confidence": 0.85,
+      "temporal_delay": null,
+      "probability": null,
+      "original_text": "Demand in France drops by 60% at a price above \u20ac250 per unit.",
+      "extracted_at": "2025-07-24 21:01:29.886517"
+    },
+    {
+      "condition_block": "Inventory",
+      "condition_attribute": "backlog",
+      "comparator": ">=",
+      "threshold": 14.0,
+      "threshold_unit": "days",
+      "action_block": "Demand",
+      "action_attribute": "customer_retention",
+      "action_value": "0.2",
+      "action_type": "probability",
+      "confidence": 0.8,
+      "temporal_delay": "2 weeks",
+      "probability": 0.8,
+      "original_text": "If we can't deliver for two weeks, there's an 80% chance we'll lose the customer.",
+      "extracted_at": "2025-07-24 21:01:29.886580"
+    }
+  ],
+  "graph_format": [
+    {
+      "condition": {
+        "block": "Energy",
+        "attribute": "price_future",
+        "operator": ">",
+        "threshold": 200.0,
+        "unit": "\u20ac/MWh"
+      },
+      "action": {
+        "block": "Production",
+        "attribute": "schedule_delay",
+        "value": "7 days",
+        "type": "delay",
+        "delay": "1 week",
+        "probability": null
+      },
+      "metadata": {
+        "confidence": 0.9,
+        "source": "If energy costs rise above \u20ac200/MWh, we will postpone production by one week."
+      }
+    },
+    {
+      "condition": {
+        "block": "Production",
+        "attribute": "unit_cost",
+        "operator": ">",
+        "threshold": 250.0,
+        "unit": "\u20ac/unit"
+      },
+      "action": {
+        "block": "Demand",
+        "attribute": "demand_shift",
+        "value": "-0.6",
+        "type": "decrease",
+        "delay": null,
+        "probability": null
+      },
+      "metadata": {
+        "confidence": 0.85,
+        "source": "Demand in France drops by 60% at a price above \u20ac250 per unit."
+      }
+    },
+    {
+      "condition": {
+        "block": "Inventory",
+        "attribute": "backlog",
+        "operator": ">=",
+        "threshold": 14.0,
+        "unit": "days"
+      },
+      "action": {
+        "block": "Demand",
+        "attribute": "customer_retention",
+        "value": "0.2",
+        "type": "probability",
+        "delay": "2 weeks",
+        "probability": 0.8
+      },
+      "metadata": {
+        "confidence": 0.8,
+        "source": "If we can't deliver for two weeks, there's an 80% chance we'll lose the customer."
+      }
+    }
+  ]
+}

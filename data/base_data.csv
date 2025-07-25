@@ -1,0 +1,12 @@
+block,attribute,type,value,formula,lag
+Energy,price_now,input,180,,
+Energy,tariff_future,input,0.20,,
+Energy,price_future,calc,,price_now*(1+tariff_future),
+Energy,CO2_factor,input,0.35,,
+Production,base_cost,input,3,,
+Production,unit_cost,calc,,Energy.price_future*0.4+base_cost,
+Production,unit_emissions,calc,,Energy.CO2_factor*Production.unit_cost,
+Demand,demand_today,input,1000,,
+Demand,demand_shift,calc,,"(-0.6 if Energy.price_future>200 else 0)+(-0.3 if Inventory.stock<300 else 0)+(-0.2 if backlog_prev>100 else 0)",
+Inventory,stock,input,500,,
+Inventory,backlog,calc,,"max(0,Demand.demand_today+Demand.demand_shift+backlog_prev-Inventory.stock)",1 
